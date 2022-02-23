@@ -6,6 +6,10 @@
  *
  * Copyright (c) 2019 Renzo Mischianti www.mischianti.org All right reserved.
  *
+ * You may copy, alter and reuse this code in any way you like, but please leave
+ * reference to www.mischianti.org in your comments if you redistribute this code.
+ *
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -234,7 +238,7 @@ bool LoRa_E220::begin(){
         DEBUG_PRINTLN("Begin Hardware Serial");
 
 #ifdef HARDWARE_SERIAL_SELECTABLE_PIN
-        if(this->txE220pin != -1 || this->rxE220pin != -1) {
+        if(this->txE220pin != -1 && this->rxE220pin != -1) {
         	DEBUG_PRINTLN("PIN SELECTED!!");
 			this->serialDef.begin(*this->hs, this->bpsRate, this->serialConfig, this->txE220pin, this->rxE220pin);
 		}else{
@@ -409,6 +413,10 @@ types each handle ints floats differently
 */
 
 Status LoRa_E220::sendStruct(void *structureManaged, uint16_t size_) {
+		if (size_ > MAX_SIZE_TX_PACKET + 2){
+			return ERR_E220_PACKET_TOO_BIG;
+		}
+
 		Status result = SUCCESS;
 
 		uint8_t len = this->serialDef.stream->write((uint8_t *) structureManaged, size_);
@@ -425,7 +433,7 @@ Status LoRa_E220::sendStruct(void *structureManaged, uint16_t size_) {
 		}
 		if (result != SUCCESS) return result;
 
-		result = this->waitCompleteResponse(1000);
+		result = this->waitCompleteResponse(5000, 5000);
 		if (result != SUCCESS) return result;
 		DEBUG_PRINT(F("Clear buffer..."))
 		this->cleanUARTBuffer();
@@ -481,7 +489,7 @@ method to set the mode (program, normal, etc.)
 
 */
 
-Status LoRa_E220::setMode(uint8_t mode) {
+Status LoRa_E220::setMode(MODE_TYPE mode) {
 
 	// data sheet claims module needs some extra time after mode setting (2ms)
 	// most of my projects uses 10 ms, but 40ms is safer
@@ -499,22 +507,22 @@ Status LoRa_E220::setMode(uint8_t mode) {
 			digitalWrite(this->m1Pin, LOW);
 			DEBUG_PRINTLN("MODE NORMAL!");
 			break;
-		  case MODE_1_WOR_TRANSMITTING:
+		  case MODE_1_WOR_TRANSMITTER:
 			digitalWrite(this->m0Pin, HIGH);
 			digitalWrite(this->m1Pin, LOW);
 			DEBUG_PRINTLN("MODE WOR!");
 			break;
-		  case MODE_2_WOR_RECEIVING:
+		  case MODE_2_WOR_RECEIVER:
 //		  case MODE_2_PROGRAM:
 			digitalWrite(this->m0Pin, LOW);
 			digitalWrite(this->m1Pin, HIGH);
-			DEBUG_PRINTLN("MODE CONFIGURATION!");
+			DEBUG_PRINTLN("MODE RECEIVING!");
 			break;
 		  case MODE_3_CONFIGURATION:
 			// Mode 3 | Setting operation
 			digitalWrite(this->m0Pin, HIGH);
 			digitalWrite(this->m1Pin, HIGH);
-			DEBUG_PRINTLN("MODE SLEEP!");
+			DEBUG_PRINTLN("MODE SLEEP CONFIG!");
 			break;
 
 		  default:
@@ -528,7 +536,15 @@ Status LoRa_E220::setMode(uint8_t mode) {
 	// wait until aux pin goes back low
 	Status res = this->waitCompleteResponse(1000);
 
+	if (res == SUCCESS){
+		this->mode = mode;
+	}
+
 	return res;
+}
+
+MODE_TYPE LoRa_E220::getMode(){
+	return this->mode;
 }
 
 void LoRa_E220::writeProgramCommand(PROGRAM_COMMAND cmd, REGISTER_ADDRESS addr, PACKET_LENGHT pl){
@@ -722,6 +738,8 @@ ResponseContainer LoRa_E220::receiveMessageComplete(bool rssiEnabled){
 	rc.status.code = SUCCESS;
 	String tmpData = this->serialDef.stream->readString();
 
+	DEBUG_PRINTLN(tmpData);
+
 	if (rssiEnabled){
 		rc.rssi = tmpData.charAt(tmpData.length()-1);
 		rc.data = tmpData.substring(0, tmpData.length()-1);
@@ -751,6 +769,25 @@ ResponseContainer LoRa_E220::receiveMessageUntil(char delimiter){
 
 	return rc;
 }
+ResponseContainer LoRa_E220::receiveInitialMessage(uint8_t size){
+	ResponseContainer rc;
+	rc.status.code = SUCCESS;
+	char buff[size];
+	uint8_t len = this->serialDef.stream->readBytes(buff, size);
+	if (len!=size) {
+		if (len==0){
+			rc.status.code = ERR_E220_NO_RESPONSE_FROM_DEVICE;
+		}else{
+			rc.status.code = ERR_E220_DATA_SIZE_NOT_MATCH;
+		}
+		return rc;
+	}
+
+	rc.data = buff; // malloc(sizeof (moduleInformation));
+
+	return rc;
+}
+
 
 ResponseStructContainer LoRa_E220::receiveMessage(const uint8_t size){
 	return LoRa_E220::receiveMessageComplete(size, false);
@@ -839,7 +876,7 @@ ResponseStatus LoRa_E220::sendFixedMessage(byte ADDH, byte ADDL, byte CHAN, cons
 	return this->sendFixedMessage(ADDH, ADDL, CHAN, (uint8_t *)messageFixed, size);
 }
 ResponseStatus LoRa_E220::sendBroadcastFixedMessage(byte CHAN, const String message){
-	return this->sendFixedMessage(0xFF, 0xFF, CHAN, message);
+	return this->sendFixedMessage(BROADCAST_ADDRESS, BROADCAST_ADDRESS, CHAN, message);
 }
 
 typedef struct fixedStransmission
@@ -889,9 +926,10 @@ ResponseStatus LoRa_E220::sendFixedMessage( byte ADDH,byte ADDL, byte CHAN, cons
 
 	ResponseStatus status;
 	status.code = this->sendStruct((uint8_t *)fixedStransmission, size+3);
-	if (status.code!=SUCCESS) return status;
 
-//	free(fixedStransmission);
+	free(fixedStransmission);
+
+	if (status.code!=SUCCESS) return status;
 
 	return status;
 }
@@ -937,25 +975,6 @@ ResponseStatus LoRa_E220::sendConfigurationMessage( byte ADDH,byte ADDL, byte CH
 
 ResponseStatus LoRa_E220::sendBroadcastFixedMessage(byte CHAN, const void *message, const uint8_t size){
 	return this->sendFixedMessage(0xFF, 0xFF, CHAN, message, size);
-}
-
-ResponseContainer LoRa_E220::receiveInitialMessage(uint8_t size){
-	ResponseContainer rc;
-	rc.status.code = SUCCESS;
-	char buff[size];
-	uint8_t len = this->serialDef.stream->readBytes(buff, size);
-	if (len!=size) {
-		if (len==0){
-			rc.status.code = ERR_E220_NO_RESPONSE_FROM_DEVICE;
-		}else{
-			rc.status.code = ERR_E220_DATA_SIZE_NOT_MATCH;
-		}
-		return rc;
-	}
-
-	rc.data = buff; // malloc(sizeof (moduleInformation));
-
-	return rc;
 }
 
 #define KeeLoq_NLF		0x3A5C742E

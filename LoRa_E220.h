@@ -8,7 +8,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Renzo Mischianti www.mischianti.org All right reserved.
+ * Copyright (c) 2022 Renzo Mischianti www.mischianti.org All right reserved.
  *
  * You may copy, alter and reuse this code in any way you like, but please leave
  * reference to www.mischianti.org in your comments if you redistribute this code.
@@ -31,25 +31,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifndef LoRa_E220_h
 #define LoRa_E220_h
 
-#define M0_PIN	7
-#define M1_PIN	8
-#define AUX_PIN	A0
-#define SOFT_RX_PIN	10
-#define SOFT_TX_PIN 11
-
-#if !defined(__STM32F1__) && !defined(ESP32)
-#define ACTIVATE_SOFTWARE_SERIAL
+#if !defined(__STM32F1__) && !defined(ESP32) && !defined(ARDUINO_ARCH_SAMD) &&!defined(ARDUINO_ARCH_MBED)
+	#define ACTIVATE_SOFTWARE_SERIAL
 #endif
 #if defined(ESP32)
-#define HARDWARE_SERIAL_SELECTABLE_PIN
+	#define HARDWARE_SERIAL_SELECTABLE_PIN
 #endif
 
 #ifdef ACTIVATE_SOFTWARE_SERIAL
-#include <SoftwareSerial.h>
+	#include <SoftwareSerial.h>
 #endif
 
 #include <includes/statesNaming.h>
@@ -60,47 +53,47 @@
 #include "WProgram.h"
 #endif
 
+#define MAX_SIZE_TX_PACKET 200
+
 // Uncomment to enable printing out nice debug messages.
-#define LoRa_E220_DEBUG
+// #define LoRa_E220_DEBUG
 
 // Define where debug output will be printed.
 #define DEBUG_PRINTER Serial
 
 // Setup debug printing macros.
 #ifdef LoRa_E220_DEBUG
-#define DEBUG_PRINT(...) { DEBUG_PRINTER.print(__VA_ARGS__); }
-#define DEBUG_PRINTLN(...) { DEBUG_PRINTER.println(__VA_ARGS__); }
+	#define DEBUG_PRINT(...) { DEBUG_PRINTER.print(__VA_ARGS__); }
+	#define DEBUG_PRINTLN(...) { DEBUG_PRINTER.println(__VA_ARGS__); }
 #else
-#define DEBUG_PRINT(...) {}
-#define DEBUG_PRINTLN(...) {}
+	#define DEBUG_PRINT(...) {}
+	#define DEBUG_PRINTLN(...) {}
 #endif
 
 enum MODE_TYPE {
-	MODE_0_NORMAL = 0,
-	MODE_0_TRANSMISSION = 0,
-	MODE_1_WOR_TRANSMITTING = 1,
-	MODE_2_WOR_RECEIVING = 2,
-	MODE_3_CONFIGURATION = 3,
-	MODE_3_PROGRAM = 3,
-	MODE_3_SLEEP = 3,
-	MODE_INIT = 0xFF
+	MODE_0_NORMAL 			= 0,
+	MODE_0_TRANSMISSION 	= 0,
+	MODE_1_WOR_TRANSMITTER 	= 1,
+	MODE_1_WOR				= 1,
+	MODE_2_WOR_RECEIVER 	= 2,
+	MODE_2_POWER_SAVING 	= 2,
+	MODE_3_CONFIGURATION 	= 3,
+	MODE_3_PROGRAM 			= 3,
+	MODE_3_SLEEP 			= 3,
+	MODE_INIT 				= 0xFF
 };
 
 enum PROGRAM_COMMAND {
-	WRITE_CFG_PWR_DWN_SAVE = 0xC0,
-	READ_CONFIGURATION = 0xC1,
-	WRITE_CFG_PWR_DWN_LOSE = 0xC2,
-	WRONG_FORMAT = 0xFF,
-	RETURNED_COMMAND = 0xC1,
-
+	WRITE_CFG_PWR_DWN_SAVE 	= 0xC0,
+	READ_CONFIGURATION 		= 0xC1,
+	WRITE_CFG_PWR_DWN_LOSE 	= 0xC2,
+	WRONG_FORMAT 			= 0xFF,
+	RETURNED_COMMAND 		= 0xC1,
 	SPECIAL_WIFI_CONF_COMMAND = 0xCF
-
-//  , READ_MODULE_VERSION   	= 0xC3,
-//  WRITE_RESET_MODULE     	= 0xC4
 };
 
 enum REGISTER_ADDRESS {
-	REG_ADDRESS_CFG	= 0x00,
+	REG_ADDRESS_CFG			= 0x00,
 	REG_ADDRESS_SPED 		= 0x02,
 	REG_ADDRESS_TRANS_MODE 	= 0x03,
 	REG_ADDRESS_CHANNEL 	= 0x04,
@@ -255,114 +248,101 @@ struct ConfigurationMessage
 #pragma pack(pop)
 
 class LoRa_E220 {
-public:
+	public:
 #ifdef ACTIVATE_SOFTWARE_SERIAL
-	LoRa_E220(byte txE220pin, byte rxE220pin,
-			UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
-	LoRa_E220(byte txE220pin, byte rxE220pin, byte auxPin, UART_BPS_RATE bpsRate =
-			UART_BPS_RATE_9600);
-	LoRa_E220(byte txE220pin, byte rxE220pin, byte auxPin, byte m0Pin, byte m1Pin,
-			UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(byte txE220pin, byte rxE220pin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(byte txE220pin, byte rxE220pin, byte auxPin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(byte txE220pin, byte rxE220pin, byte auxPin, byte m0Pin, byte m1Pin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
 #endif
 
-	LoRa_E220(HardwareSerial* serial, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
-	LoRa_E220(HardwareSerial* serial, byte auxPin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
-	LoRa_E220(HardwareSerial* serial, byte auxPin, byte m0Pin, byte m1Pin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(HardwareSerial* serial, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(HardwareSerial* serial, byte auxPin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(HardwareSerial* serial, byte auxPin, byte m0Pin, byte m1Pin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
 
 #ifdef HARDWARE_SERIAL_SELECTABLE_PIN
-	LoRa_E220(byte txE220pin, byte rxE220pin, HardwareSerial* serial, UART_BPS_RATE bpsRate, uint32_t serialConfig = SERIAL_8N1);
-	LoRa_E220(byte txE220pin, byte rxE220pin, HardwareSerial* serial, byte auxPin, UART_BPS_RATE bpsRate, uint32_t serialConfig = SERIAL_8N1);
-	LoRa_E220(byte txE220pin, byte rxE220pin, HardwareSerial* serial, byte auxPin, byte m0Pin, byte m1Pin, UART_BPS_RATE bpsRate, uint32_t serialConfig = SERIAL_8N1);
+		LoRa_E220(byte txE220pin, byte rxE220pin, HardwareSerial* serial, UART_BPS_RATE bpsRate, uint32_t serialConfig = SERIAL_8N1);
+		LoRa_E220(byte txE220pin, byte rxE220pin, HardwareSerial* serial, byte auxPin, UART_BPS_RATE bpsRate, uint32_t serialConfig = SERIAL_8N1);
+		LoRa_E220(byte txE220pin, byte rxE220pin, HardwareSerial* serial, byte auxPin, byte m0Pin, byte m1Pin, UART_BPS_RATE bpsRate, uint32_t serialConfig = SERIAL_8N1);
 #endif
 
 #ifdef ACTIVATE_SOFTWARE_SERIAL
-	LoRa_E220(SoftwareSerial* serial,
-			UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
-	LoRa_E220(SoftwareSerial* serial, byte auxPin, UART_BPS_RATE bpsRate =
-			UART_BPS_RATE_9600);
-	LoRa_E220(SoftwareSerial* serial, byte auxPin, byte m0Pin, byte m1Pin,
-			UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(SoftwareSerial* serial, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(SoftwareSerial* serial, byte auxPin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
+		LoRa_E220(SoftwareSerial* serial, byte auxPin, byte m0Pin, byte m1Pin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600);
 #endif
 
 //		LoRa_E220(byte txE220pin, byte rxE220pin, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600, MODE_TYPE mode = MODE_0_NORMAL);
 //		LoRa_E220(HardwareSerial* serial = &Serial, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600, MODE_TYPE mode = MODE_0_NORMAL);
 //		LoRa_E220(SoftwareSerial* serial, UART_BPS_RATE bpsRate = UART_BPS_RATE_9600, MODE_TYPE mode = MODE_0_NORMAL);
 
-	bool begin();
-	Status setMode(uint8_t mode);
+		bool begin();
+        Status setMode(MODE_TYPE mode);
+        MODE_TYPE getMode();
 
-	ResponseStructContainer getConfiguration();
-	ResponseStatus setConfiguration(Configuration configuration,
-			PROGRAM_COMMAND saveType = WRITE_CFG_PWR_DWN_LOSE);
+		ResponseStructContainer getConfiguration();
+		ResponseStatus setConfiguration(Configuration configuration, PROGRAM_COMMAND saveType = WRITE_CFG_PWR_DWN_LOSE);
 
-	ResponseStructContainer getModuleInformation();
-	ResponseStatus resetModule();
+		ResponseStructContainer getModuleInformation();
+		ResponseStatus resetModule();
 
-	ResponseStatus sendMessage(const void *message, const uint8_t size);
+		ResponseStatus sendMessage(const void *message, const uint8_t size);
 
-    ResponseContainer receiveMessageUntil(char delimiter = '\0');
-	ResponseStructContainer receiveMessage(const uint8_t size);
-	ResponseStructContainer receiveMessageRSSI(const uint8_t size);
+	    ResponseContainer receiveMessageUntil(char delimiter = '\0');
+		ResponseStructContainer receiveMessage(const uint8_t size);
+		ResponseStructContainer receiveMessageRSSI(const uint8_t size);
+	        
+        ResponseStructContainer receiveMessageComplete(const uint8_t size, bool enableRSSI);
+		ResponseContainer receiveMessageComplete(bool enableRSSI);
+	
+		ResponseStatus sendMessage(const String message);
+		ResponseContainer receiveMessage();
+		ResponseContainer receiveMessageRSSI();
 
-	ResponseStructContainer receiveMessageComplete(const uint8_t size, bool enableRSSI);
+		ResponseStatus sendFixedMessage(byte ADDH, byte ADDL, byte CHAN, const String message);
 
-	ResponseStatus sendMessage(const String message);
-	ResponseContainer receiveMessage();
-	ResponseContainer receiveMessageRSSI();
+        ResponseStatus sendFixedMessage(byte ADDH,byte ADDL, byte CHAN, const void *message, const uint8_t size);
+        ResponseStatus sendBroadcastFixedMessage(byte CHAN, const void *message, const uint8_t size);
+        ResponseStatus sendBroadcastFixedMessage(byte CHAN, const String message);
 
-	ResponseContainer receiveMessageComplete(bool enableRSSI);
+		ResponseContainer receiveInitialMessage(const uint8_t size);
 
-	ResponseStatus sendFixedMessage(byte ADDH, byte ADDL, byte CHAN,
-			const String message);
+		ResponseStatus sendConfigurationMessage( byte ADDH,byte ADDL, byte CHAN, Configuration *configuration, PROGRAM_COMMAND programCommand = WRITE_CFG_PWR_DWN_SAVE);
 
-	ResponseStatus sendConfigurationMessage( byte ADDH,byte ADDL, byte CHAN,
-			Configuration *configuration, PROGRAM_COMMAND programCommand = WRITE_CFG_PWR_DWN_SAVE);
-
-	ResponseStatus sendBroadcastFixedMessage(byte CHAN, const String message);
-
-	ResponseStatus sendFixedMessage(byte ADDH, byte ADDL, byte CHAN,
-			const void *message, const uint8_t size);
-	ResponseStatus sendBroadcastFixedMessage(byte CHAN, const void *message,
-			const uint8_t size);
-
-	ResponseContainer receiveInitialMessage(const uint8_t size);
-
-//	int available(unsigned long timeout = 1000);
-	int available();
-private:
-	HardwareSerial* hs;
+        int available();
+	private:
+		HardwareSerial* hs;
 
 #ifdef ACTIVATE_SOFTWARE_SERIAL
-	SoftwareSerial* ss;
+		SoftwareSerial* ss;
 #endif
 
-	bool isSoftwareSerial = true;
+		bool isSoftwareSerial = true;
 
-	int8_t txE220pin = -1;
-	int8_t rxE220pin = -1;
-	int8_t auxPin = -1;
+		int8_t txE220pin = -1;
+		int8_t rxE220pin = -1;
+		int8_t auxPin = -1;
 
 #ifdef HARDWARE_SERIAL_SELECTABLE_PIN
-	uint32_t serialConfig = SERIAL_8N1;
+		uint32_t serialConfig = SERIAL_8N1;
 #endif
 
-	int8_t m0Pin = -1;
-	int8_t m1Pin = -1;
+		int8_t m0Pin = -1;
+		int8_t m1Pin = -1;
 
-	unsigned long halfKeyloqKey = 0x06660708;
-	unsigned long encrypt(unsigned long data);
-	unsigned long decrypt(unsigned long data);
+		unsigned long halfKeyloqKey = 0x06660708;
+		unsigned long encrypt(unsigned long data);
+		unsigned long decrypt(unsigned long data);
 
-	UART_BPS_RATE bpsRate = UART_BPS_RATE_9600;
+		UART_BPS_RATE bpsRate = UART_BPS_RATE_9600;
 
-	struct NeedsStream {
-		template<typename T>
-		void begin(T &t, int baud) {
-			DEBUG_PRINTLN("Begin ");
-			t.setTimeout(500);
-			t.begin(baud);
-			stream = &t;
-		}
+		struct NeedsStream {
+			template<typename T>
+			void begin(T &t, int baud) {
+				DEBUG_PRINTLN("Begin ");
+				t.setTimeout(500);
+				t.begin(baud);
+				stream = &t;
+			}
 
 #ifdef HARDWARE_SERIAL_SELECTABLE_PIN
 //		  template< typename T >
@@ -373,47 +353,44 @@ private:
 //			  stream = &t;
 //		  }
 //
-		template< typename T >
-		void begin( T &t, int baud, uint32_t config ) {
-			DEBUG_PRINTLN("Begin ");
-			t.setTimeout(500);
-			t.begin(baud, config);
-			stream = &t;
-		}
+			template< typename T >
+			void begin( T &t, int baud, uint32_t config ) {
+				DEBUG_PRINTLN("Begin ");
+				t.setTimeout(500);
+				t.begin(baud, config);
+				stream = &t;
+			}
 
-		template< typename T >
-		void begin( T &t, int baud, uint32_t config, int8_t txE220pin, int8_t rxE220pin ) {
-			DEBUG_PRINTLN("Begin ");
-			t.setTimeout(500);
-			t.begin(baud, config, txE220pin, rxE220pin);
-			stream = &t;
-		}
+			template< typename T >
+			void begin( T &t, int baud, uint32_t config, int8_t txE220pin, int8_t rxE220pin ) {
+				DEBUG_PRINTLN("Begin ");
+				t.setTimeout(500);
+				t.begin(baud, config, txE220pin, rxE220pin);
+				stream = &t;
+			}
 #endif
 
-		void listen() {
+			void listen() {}
 
-		}
+			Stream *stream;
+		};
+		NeedsStream serialDef;
 
-		Stream *stream;
-	};
-	NeedsStream serialDef;
+		MODE_TYPE mode = MODE_0_NORMAL;
 
-	MODE_TYPE mode = MODE_0_NORMAL;
+		void managedDelay(unsigned long timeout);
+		Status waitCompleteResponse(unsigned long timeout = 1000, unsigned int waitNoAux = 100);
+		void flush();
+		void cleanUARTBuffer();
 
-	void managedDelay(unsigned long timeout);
-	Status waitCompleteResponse(unsigned long timeout = 1000,
-			unsigned int waitNoAux = 100);
-	void flush();
-	void cleanUARTBuffer();
+		Status sendStruct(void *structureManaged, uint16_t size_);
+		Status receiveStruct(void *structureManaged, uint16_t size_);
+		void writeProgramCommand(PROGRAM_COMMAND cmd, REGISTER_ADDRESS addr, PACKET_LENGHT pl);
 
-	Status sendStruct(void *structureManaged, uint16_t size_);
-	Status receiveStruct(void *structureManaged, uint16_t size_);
-	void writeProgramCommand(PROGRAM_COMMAND cmd, REGISTER_ADDRESS addr, PACKET_LENGHT pl);
-
-	RESPONSE_STATUS checkUARTConfiguration(MODE_TYPE mode);
+		RESPONSE_STATUS checkUARTConfiguration(MODE_TYPE mode);
 
 #ifdef LoRa_E220_DEBUG
-	void printParameters(struct Configuration *configuration);
+		void printParameters(struct Configuration *configuration);
 #endif
 };
 

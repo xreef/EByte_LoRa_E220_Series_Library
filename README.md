@@ -9,18 +9,7 @@
   align="right"></a>
 </div>
 
-#
-#
 
-
-#
-#
-
-<div style="background-color: red; color: white; padding: 20px">
-I stop this tutorial and the development of the library for the E220 because EByte prefers not to support these projects.</br>
-If you are interested in these projects write to them expressing your interest: </br>
-Robin Ebyte &lt;sales06@ebyte.com&gt; .
-</div>
 
 # Soon a complete tutorial on my site www.mischianti.org
 
