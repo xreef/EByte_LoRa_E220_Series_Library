@@ -337,7 +337,7 @@ class LoRa_E220 {
 
 		struct NeedsStream {
 			template<typename T>
-			void begin(T &t, int baud) {
+			void begin(T &t, uint32_t baud) {
 				DEBUG_PRINTLN("Begin ");
 				t.setTimeout(500);
 				t.begin(baud);
@@ -346,7 +346,7 @@ class LoRa_E220 {
 
 #ifdef HARDWARE_SERIAL_SELECTABLE_PIN
 //		  template< typename T >
-//		  void begin( T &t, int baud, SerialConfig config ){
+//		  void begin( T &t, uint32_t baud, SerialConfig config ){
 //			  DEBUG_PRINTLN("Begin ");
 //			  t.setTimeout(500);
 //			  t.begin(baud, config);
@@ -354,7 +354,7 @@ class LoRa_E220 {
 //		  }
 //
 			template< typename T >
-			void begin( T &t, int baud, uint32_t config ) {
+			void begin( T &t, uint32_t baud, uint32_t config ) {
 				DEBUG_PRINTLN("Begin ");
 				t.setTimeout(500);
 				t.begin(baud, config);
@@ -362,7 +362,7 @@ class LoRa_E220 {
 			}
 
 			template< typename T >
-			void begin( T &t, int baud, uint32_t config, int8_t txE220pin, int8_t rxE220pin ) {
+			void begin( T &t, uint32_t baud, uint32_t config, int8_t txE220pin, int8_t rxE220pin ) {
 				DEBUG_PRINTLN("Begin ");
 				t.setTimeout(500);
 				t.begin(baud, config, txE220pin, rxE220pin);
