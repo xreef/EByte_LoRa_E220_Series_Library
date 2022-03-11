@@ -15,14 +15,14 @@
 
 # Tutorial 
 
- - [Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: specifiche ed utilizzo base]()
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: libreria
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: configurazione
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: trasmissione fissa, broadcast, monitor e RSSI
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: power saving ed invio di dati strutturati
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: WOR il microcontrollore e lo shield per Arduino
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: WOR il microcontrollore e lo shield per il WeMos D1 mini
- - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: WOR il microcontrollore e lo shield per l'esp32 dev v1
+- [Ebyte LoRa E220 device for Arduino, esp32 or esp8266: settings and basic usage](https://www.mischianti.org/2022/03/11/ebyte-lora-e220-llcc68-device-for-arduino-esp32-or-esp8266-specs-and-basic-use-1/)
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: library
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: configuration
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: fixed transmission, broadcast, monitor, and RSSI
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: power saving and sending structured data
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and Arduino shield
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and WeMos D1 shield
+- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and esp32 dev v1 shield
 
 # An Arduino UNO shield to simplify the use
 ![Arduino UNO shield](https://www.mischianti.org/wp-content/uploads/2019/12/ArduinoShieldMountedE32LoRa_min.jpg)
