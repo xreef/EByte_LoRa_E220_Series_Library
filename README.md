@@ -13,7 +13,7 @@
 
 
 
-# Soon a complete tutorial on my site www.mischianti.org
+# Tutorial 
 
  - [Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: specifiche ed utilizzo base]()
  - Ebyte LoRa E220 LLCC68 per Arduino, esp32 o esp8266: libreria
