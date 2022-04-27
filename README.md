@@ -11,7 +11,9 @@
   align="right"></a>
 </div>
 
-
+###CHANGELOG
+ - 2022-04-27 1.0.3 Fix frequencies define
+ - 2022-04-07 1.0.2 Fix support for STM32
 
 # Tutorial 
 
@@ -414,7 +416,7 @@ LoRa_E220 e220ttl(&amp;mySerial);
 <p>The code is</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: arduino; title: ; notranslate" title="">  SUCCESS = 1,
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: arduino; title: ; notranslate" title="">  E220_SUCCESS = 1,
   ERR_E220_UNKNOWN,
   ERR_E220_NOT_SUPPORT,
   ERR_E220_NOT_IMPLEMENT,

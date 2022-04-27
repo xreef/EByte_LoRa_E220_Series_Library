@@ -2,14 +2,14 @@
 
 #ifdef FREQUENCY_433
 	#define OPERATING_FREQUENCY 410
-#elif defined(FREQUENCY_170)
-	#define OPERATING_FREQUENCY 130
-#elif defined(FREQUENCY_470)
-	#define OPERATING_FREQUENCY 370
+#elif defined(FREQUENCY_400)
+	#define OPERATING_FREQUENCY 410
+#elif defined(FREQUENCY_230)
+	#define OPERATING_FREQUENCY 220
 #elif defined(FREQUENCY_868)
-	#define OPERATING_FREQUENCY 862
+	#define OPERATING_FREQUENCY 850
 #elif defined(FREQUENCY_915)
-	#define OPERATING_FREQUENCY 900
+	#define OPERATING_FREQUENCY 850
 #else
 	#define OPERATING_FREQUENCY 410
 #endif
@@ -17,7 +17,10 @@
 #define BROADCAST_ADDRESS 255
 
 typedef enum RESPONSE_STATUS {
+#ifndef ARDUINO_ARCH_STM32
   SUCCESS = 1,
+#endif
+  E220_SUCCESS = 1,
   ERR_E220_UNKNOWN,	/* something shouldn't happened */
   ERR_E220_NOT_SUPPORT,
   ERR_E220_NOT_IMPLEMENT,
@@ -37,7 +40,7 @@ typedef enum RESPONSE_STATUS {
 static String getResponseDescriptionByParams(byte status){
 	switch (status)
 	{
-	  case SUCCESS:
+	  case E220_SUCCESS:
 		return F("Success");
 		break;
 	  case ERR_E220_UNKNOWN:

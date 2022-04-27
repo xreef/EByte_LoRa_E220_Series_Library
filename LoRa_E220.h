@@ -2,7 +2,7 @@
  * EBYTE LoRa E220 Series
  *
  * AUTHOR:  Renzo Mischianti
- * VERSION: 1.0.0
+ * VERSION: 1.0.3
  *
  * https://www.mischianti.org
  *
@@ -56,7 +56,7 @@
 #define MAX_SIZE_TX_PACKET 200
 
 // Uncomment to enable printing out nice debug messages.
-// #define LoRa_E220_DEBUG
+#define LoRa_E220_DEBUG
 
 // Define where debug output will be printed.
 #define DEBUG_PRINTER Serial
