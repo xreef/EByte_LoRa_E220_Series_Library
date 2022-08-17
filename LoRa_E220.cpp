@@ -435,8 +435,6 @@ Status LoRa_E220::sendStruct(void *structureManaged, uint16_t size_) {
 
 		result = this->waitCompleteResponse(5000, 5000);
 		if (result != E220_SUCCESS) return result;
-		DEBUG_PRINT(F("Clear buffer..."))
-		this->cleanUARTBuffer();
 
 		DEBUG_PRINTLN(F("ok!"))
 
@@ -641,6 +639,9 @@ ResponseStatus LoRa_E220::setConfiguration(Configuration configuration, PROGRAM_
 	if (RETURNED_COMMAND != ((Configuration *)&configuration)->COMMAND || REG_ADDRESS_CFG!= ((Configuration *)&configuration)->STARTING_ADDRESS || PL_CONFIGURATION!= ((Configuration *)&configuration)->LENGHT){
 		rc.code = ERR_E220_HEAD_NOT_RECOGNIZED;
 	}
+
+	DEBUG_PRINT(F("Clear buffer..."))
+	this->cleanUARTBuffer();
 
 	return rc;
 }
