@@ -4,14 +4,13 @@
    align="right"></a>
 </div>
 <div>
-
-<br/>
 <a href="https://www.mischianti.org/it/forums/forum/le-librerie-di-mischianti/ebyte-e220-dispositivi-lora-uart-llcc68/"><img
   src="https://github.com/xreef/LoRa_E32_Series_Library/raw/master/resources/buttonSupportForumItaliano.png" alt="Forum supporto EByte e220 italiano"
   align="right"></a>
 </div>
 
 
+</br></br>
 
 
 
