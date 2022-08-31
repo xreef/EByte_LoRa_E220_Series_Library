@@ -2,7 +2,7 @@
  * EBYTE LoRa E220 Series
  *
  * AUTHOR:  Renzo Mischianti
- * VERSION: 1.0.4
+ * VERSION: 1.0.5
  *
  * https://www.mischianti.org
  *

@@ -26,6 +26,7 @@
 - Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and esp32 dev v1 shield
 
 ## CHANGELOG
+- 2022-08-31 1.0.5 Fix regression and Minor fix and examples update for Raspberry Pi Pico and STM32
 - 2022-08-31 1.0.4 Minor fix and examples update for Raspberry Pi Pico and STM32
 - 2022-04-27 1.0.3 Fix frequencies define
 - 2022-04-07 1.0.2 Fix support for STM32
