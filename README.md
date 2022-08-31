@@ -11,21 +11,26 @@
   align="right"></a>
 </div>
 
-###CHANGELOG
- - 2022-08-31 1.0.4 Minor fix and examples update for Raspberry Pi Pico and STM32
- - 2022-04-27 1.0.3 Fix frequencies define
- - 2022-04-07 1.0.2 Fix support for STM32
+
+
+
 
 # Tutorial 
 
 - [Ebyte LoRa E220 device for Arduino, esp32 or esp8266: settings and basic usage](https://www.mischianti.org/2022/03/11/ebyte-lora-e220-llcc68-device-for-arduino-esp32-or-esp8266-specs-and-basic-use-1/)
-- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: library
-- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: configuration
-- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: fixed transmission, broadcast, monitor, and RSSI
-- Ebyte LoRa E220 device for Arduino, esp32 or esp8266: power saving and sending structured data
+- [Ebyte LoRa E220 device for Arduino, esp32 or esp8266: library](https://www.mischianti.org/2022/03/17/ebyte-lora-e220-llcc68-device-for-arduino-esp32-or-esp8266-library-2/)
+- [Ebyte LoRa E220 device for Arduino, esp32 or esp8266: configuration](https://www.mischianti.org/2022/04/19/ebyte-lora-e220-llcc68-device-for-arduino-esp32-or-esp8266-configuration-3/)
+- [Ebyte LoRa E220 device for Arduino, esp32 or esp8266: fixed transmission, broadcast, monitor, and RSSI](https://www.mischianti.org/2022/04/27/ebyte-lora-e220-device-for-arduino-esp32-or-esp8266-fixed-transmission-broadcast-monitor-and-rssi-4/)
+- [Ebyte LoRa E220 device for Arduino, esp32 or esp8266: power saving and sending structured data](https://www.mischianti.org/2022/05/06/ebyte-lora-e220-device-for-arduino-esp32-or-esp8266-manage-wake-on-radio-and-sends-structured-data-5/)
 - Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and Arduino shield
 - Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and WeMos D1 shield
 - Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and esp32 dev v1 shield
+
+## CHANGELOG
+- 2022-08-31 1.0.4 Minor fix and examples update for Raspberry Pi Pico and STM32
+- 2022-04-27 1.0.3 Fix frequencies define
+- 2022-04-07 1.0.2 Fix support for STM32
+
 
 # An Arduino UNO shield to simplify the use
 ![Arduino UNO shield](https://www.mischianti.org/wp-content/uploads/2019/12/ArduinoShieldMountedE32LoRa_min.jpg)
