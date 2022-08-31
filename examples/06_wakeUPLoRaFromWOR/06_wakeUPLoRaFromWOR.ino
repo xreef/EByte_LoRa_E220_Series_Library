@@ -11,14 +11,14 @@
  *
  * https://www.mischianti.org
  *
- * E220		  ----- WeMos D1 mini	----- esp32			----- Arduino Nano 33 IoT	----- Arduino MKR	----- ArduinoUNO
- * M0         ----- D7 (or GND)		----- 19 (or GND)	----- 4 (or GND)			----- 2 (or GND)	----- 7 Volt div (or GND)
- * M1         ----- D6 (or 3.3v)	----- 21 (or 3.3v)	----- 6 (or 3.3v)			----- 4 (or 3.3v)	----- 6 Volt div (or 3.3v)
- * TX         ----- D3 (PullUP)		----- TX2 (PullUP)	----- TX1 (PullUP)			----- 14 (PullUP)	----- 4 (PullUP)
- * RX         ----- D4 (PullUP)		----- RX2 (PullUP)	----- RX1 (PullUP)			----- 13 (PullUP)	----- 5 Volt div (PullUP)
- * AUX        ----- D5 (PullUP)		----- 18  (PullUP)	----- 2  (PullUP)			----- 0  (PullUP)	----- 3 (PullUP)
- * VCC        ----- 3.3v/5v			----- 3.3v/5v		----- 3.3v/5v				----- 3.3v/5v		----- 3.3v/5v
- * GND        ----- GND				----- GND			----- GND					----- GND			----- GND
+ * E220		  ----- WeMos D1 mini	----- esp32			----- Arduino Nano 33 IoT	----- Arduino MKR	----- stm32               ----- ArduinoUNO
+ * M0         ----- D7 (or GND)		----- 19 (or GND)	----- 4 (or GND)			----- 2 (or GND)	----- PB0 (or GND)        ----- 7 Volt div (or GND)
+ * M1         ----- D6 (or 3.3v)	----- 21 (or 3.3v)	----- 6 (or 3.3v)			----- 4 (or 3.3v)	----- PB10 (or 3.3v)      ----- 6 Volt div (or 3.3v)
+ * TX         ----- D3 (PullUP)		----- TX2 (PullUP)	----- TX1 (PullUP)			----- 14 (PullUP)	----- PA2 TX2 (PullUP)    ----- 4 (PullUP)
+ * RX         ----- D4 (PullUP)		----- RX2 (PullUP)	----- RX1 (PullUP)			----- 13 (PullUP)	----- PA3 RX2 (PullUP)    ----- 5 Volt div (PullUP)
+ * AUX        ----- D5 (PullUP)		----- 18  (PullUP)	----- 2  (PullUP)			----- 0  (PullUP)	----- PA0  (PullUP)       ----- 3 (PullUP)
+ * VCC        ----- 3.3v/5v			----- 3.3v/5v		----- 3.3v/5v				----- 3.3v/5v		----- 3.3v/5v             ----- 3.3v/5v
+ * GND        ----- GND				----- GND			----- GND					----- GND			----- GND                 ----- GND
  *
  */
 
@@ -62,6 +62,11 @@ LoRa_E220 e220ttl(4, 5, 3, 7, 6); // Arduino RX <-- e220 TX, Arduino TX --> e220
 
 //LoRa_E220 e220ttl(&Serial2, 22, 4, 18, 21, 19, UART_BPS_RATE_9600); //  esp32 RX <-- e220 TX, esp32 TX --> e220 RX AUX M0 M1
 // -------------------------------------
+
+// ---------------- STM32 --------------------
+//HardwareSerial Serial2(USART2);   // PA3  (RX)  PA2  (TX)
+//LoRa_E220 e220ttl(&Serial2, PA0, PB0, PB10); //  RX AUX M0 M1
+// -------------------------------------------------
 
  bool interruptExecuted = false;
 #ifdef ESP32

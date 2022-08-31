@@ -12,6 +12,7 @@
 </div>
 
 ###CHANGELOG
+ - 2022-08-31 1.0.4 Minor fix and examples update for Raspberry Pi Pico and STM32
  - 2022-04-27 1.0.3 Fix frequencies define
  - 2022-04-07 1.0.2 Fix support for STM32
 
