@@ -2,7 +2,7 @@
  * EBYTE LoRa E220 Series
  *
  * AUTHOR:  Renzo Mischianti
- * VERSION: 1.0.5
+ * VERSION: 1.0.6
  *
  * https://www.mischianti.org
  *
@@ -34,7 +34,7 @@
 #ifndef LoRa_E220_h
 #define LoRa_E220_h
 
-#if !defined(__STM32F1__) && !defined(ESP32) && !defined(ARDUINO_ARCH_SAMD) &&!defined(ARDUINO_ARCH_MBED)
+#if !defined(ARDUINO_ARCH_STM32) && !defined(ESP32) && !defined(ARDUINO_ARCH_SAMD) && !defined(ARDUINO_ARCH_MBED) && !defined(__STM32F1__) && !defined(__STM32F4__)
 	#define ACTIVATE_SOFTWARE_SERIAL
 #endif
 #if defined(ESP32)
