@@ -95,6 +95,9 @@ void setup() {
 	Serial.println(cMi.status.code);
 
 	printModuleInformation(mi);
+
+	c.close();
+	cMi.close();
 }
 
 void loop() {
