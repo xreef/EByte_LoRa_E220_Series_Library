@@ -547,13 +547,15 @@ MODE_TYPE LoRa_E220::getMode(){
 	return this->mode;
 }
 
-void LoRa_E220::writeProgramCommand(PROGRAM_COMMAND cmd, REGISTER_ADDRESS addr, PACKET_LENGHT pl){
+bool LoRa_E220::writeProgramCommand(PROGRAM_COMMAND cmd, REGISTER_ADDRESS addr, PACKET_LENGHT pl){
 	  uint8_t CMD[3] = {cmd, addr, pl};
 	  uint8_t size = this->serialDef.stream->write(CMD, 3);
 
 	  DEBUG_PRINTLN(size);
 
 	  this->managedDelay(50);  //need ti check
+
+	  return size!=2;
 }
 
 ResponseStructContainer LoRa_E220::getConfiguration(){
