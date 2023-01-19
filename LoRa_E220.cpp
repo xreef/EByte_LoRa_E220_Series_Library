@@ -637,10 +637,10 @@ ResponseStatus LoRa_E220::setConfiguration(Configuration configuration, PROGRAM_
 	rc.code = this->setMode(prevMode);
 	if (rc.code!=E220_SUCCESS) return rc;
 
-	if (WRONG_FORMAT == ((Configuration *)&configuration)->COMMAND){
+	if (WRONG_FORMAT == configuration.COMMAND){
 		rc.code = ERR_E220_WRONG_FORMAT;
 	}
-	if (RETURNED_COMMAND != ((Configuration *)&configuration)->COMMAND || REG_ADDRESS_CFG!= ((Configuration *)&configuration)->STARTING_ADDRESS || PL_CONFIGURATION!= ((Configuration *)&configuration)->LENGHT){
+	if (RETURNED_COMMAND != configuration.COMMAND || REG_ADDRESS_CFG!= configuration.STARTING_ADDRESS || PL_CONFIGURATION!= configuration.LENGHT){
 		rc.code = ERR_E220_HEAD_NOT_RECOGNIZED;
 	}
 
