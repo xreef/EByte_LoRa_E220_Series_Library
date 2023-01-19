@@ -640,7 +640,11 @@ ResponseStatus LoRa_E220::setConfiguration(Configuration configuration, PROGRAM_
 	if (WRONG_FORMAT == configuration.COMMAND){
 		rc.code = ERR_E220_WRONG_FORMAT;
 	}
-	if (RETURNED_COMMAND != configuration.COMMAND || REG_ADDRESS_CFG!= configuration.STARTING_ADDRESS || PL_CONFIGURATION!= configuration.LENGHT){
+	
+        // incredibile sembra che invia C0 e ritorna C0 e non C1 datascheet error ???
+        // analogamente invia C2 e ritorna C2 datascheet error ???
+        // con questa modifica a me funziona !!!	
+	if (saveType != configuration.COMMAND || REG_ADDRESS_CFG!= configuration.STARTING_ADDRESS || PL_CONFIGURATION!= configuration.LENGHT){
 		rc.code = ERR_E220_HEAD_NOT_RECOGNIZED;
 	}
 
