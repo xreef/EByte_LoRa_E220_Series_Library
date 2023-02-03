@@ -290,10 +290,11 @@ Status LoRa_E220::waitCompleteResponse(unsigned long timeout, unsigned int waitN
 
 	unsigned long t = millis();
 
+        // #AP# questo non serve!
 	// make darn sure millis() is not about to reach max data type limit and start over
-	if (((unsigned long) (t + timeout)) == 0){
-		t = 0;
-	}
+	//if (((unsigned long) (t + timeout)) == 0){
+	//	t = 0;
+	//}
 
 	// if AUX pin was supplied and look for HIGH state
 	// note you can omit using AUX if no pins are available, but you will have to use delay() to let module finish
@@ -333,10 +334,11 @@ void LoRa_E220::managedDelay(unsigned long timeout) {
 
 	unsigned long t = millis();
 
+        // #AP# questo non serve!
 	// make darn sure millis() is not about to reach max data type limit and start over
-	if (((unsigned long) (t + timeout)) == 0){
-		t = 0;
-	}
+	//if (((unsigned long) (t + timeout)) == 0){
+	//	t = 0;
+	//}
 
 	while ((millis() - t) < timeout) 	{ 	}
 
@@ -640,10 +642,10 @@ ResponseStatus LoRa_E220::setConfiguration(Configuration configuration, PROGRAM_
 	if (WRONG_FORMAT == configuration.COMMAND){
 		rc.code = ERR_E220_WRONG_FORMAT;
 	}
-	
+
         // incredibile sembra che invia C0 e ritorna C0 e non C1 datascheet error ???
         // analogamente invia C2 e ritorna C2 datascheet error ???
-        // con questa modifica a me funziona !!!	
+        // con questa modifica a me funziona !!!
 	if (saveType != configuration.COMMAND || REG_ADDRESS_CFG!= configuration.STARTING_ADDRESS || PL_CONFIGURATION!= configuration.LENGHT){
 		rc.code = ERR_E220_HEAD_NOT_RECOGNIZED;
 	}
