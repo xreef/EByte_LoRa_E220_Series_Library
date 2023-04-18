@@ -26,6 +26,7 @@
 - Ebyte LoRa E220 device for Arduino, esp32 or esp8266: WOR microcontroller and esp32 dev v1 shield
 
 ## CHANGELOG
+- 2023-04-18 1.0.8 Distinct frequency from 900MHz and 915Mhz devices [Forum](https://www.mischianti.org/forums/topic/e32-915t-and-e32-900t-modules/) 
 - 2023-01-28 1.0.7 Fix UART_PARITY for ESP32 C3 
 - 2022-09-19 1.0.6 Fix stm32 rogerclerk library xreef/LoRa_E32_Series_Library#48
 - 2022-08-31 1.0.5 Fix regression and Minor fix and examples update for Raspberry Pi Pico and STM32
