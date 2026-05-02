@@ -254,7 +254,7 @@ Instruction and assembly video on 6 part of the guide
 
 
 
-<figure class="wp-block-table mischianti-table-left"><table><thead><tr><th>E22</th><th>esp32</th></tr></thead><tbody><tr><td>M0</td><td>D21</td></tr><tr><td>M1</td><td>D19</td></tr><tr><td>TX</td><td>PIN RX2 (PullUP 4,7KΩ)</td></tr><tr><td>RX</td><td>PIN TX3 (PullUP 4,7KΩ)</td></tr><tr><td>AUX</td><td>PIN D18 (PullUP 4,7KΩ) (D15 to wake up)</td></tr><tr><td>VCC</td><td>5V (but work with less power in 3.3v)</td></tr><tr><td>GND</td><td>GND</td></tr><tr><td></td><td></td></tr></tbody></table></figure>
+<figure class="wp-block-table mischianti-table-left"><table><thead><tr><th>E22</th><th>esp32</th></tr></thead><tbody><tr><td>M0</td><td>D21</td></tr><tr><td>M1</td><td>D19</td></tr><tr><td>TX</td><td>PIN RX2 (PullUP 4,7KΩ)</td></tr><tr><td>RX</td><td>PIN TX2 (PullUP 4,7KΩ)</td></tr><tr><td>AUX</td><td>PIN D18 (PullUP 4,7KΩ) (D15 to wake up)</td></tr><tr><td>VCC</td><td>5V (but work with less power in 3.3v)</td></tr><tr><td>GND</td><td>GND</td></tr><tr><td></td><td></td></tr></tbody></table></figure>
 
 
 
