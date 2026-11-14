@@ -59,7 +59,12 @@
 //#define LoRa_E220_DEBUG
 
 // Define where debug output will be printed.
+#ifdef DEBUG_PRINTER_HEADER
+#include DEBUG_PRINTER_HEADER
+#endif
+#ifndef DEBUG_PRINTER
 #define DEBUG_PRINTER Serial
+#endif
 
 // Setup debug printing macros.
 #ifdef LoRa_E220_DEBUG
