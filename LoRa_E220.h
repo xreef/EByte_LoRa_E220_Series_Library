@@ -66,10 +66,15 @@
 #define DEBUG_PRINTER Serial
 #endif
 
+// Optional hook: the project can define it (e.g. via DEBUG_PRINTER_HEADER) to know where each debug print comes from.
+#ifndef DEBUG_LOCATION
+#define DEBUG_LOCATION(file, line, func)
+#endif
+
 // Setup debug printing macros.
 #ifdef LoRa_E220_DEBUG
-	#define DEBUG_PRINT(...) { DEBUG_PRINTER.print(__VA_ARGS__); }
-	#define DEBUG_PRINTLN(...) { DEBUG_PRINTER.println(__VA_ARGS__); }
+	#define DEBUG_PRINT(...) { DEBUG_LOCATION(__FILE__, __LINE__, __func__); DEBUG_PRINTER.print(__VA_ARGS__); }
+	#define DEBUG_PRINTLN(...) { DEBUG_LOCATION(__FILE__, __LINE__, __func__); DEBUG_PRINTER.println(__VA_ARGS__); }
 #else
 	#define DEBUG_PRINT(...) {}
 	#define DEBUG_PRINTLN(...) {}
